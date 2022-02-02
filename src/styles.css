@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    height: auto;
+    width: auto;
+    background-color: #2e2c2ce3;
+    font-family: "Satisfy", cursive;
+    color: white;
+    padding: 10px;
+}
+
+
+.boton1 {   /* Botones del menu (Menu, Carta, Tragos, Quienes Somos, Contactenos) */
+    font-family: "Satisfy", cursive;
+    font-size: 20px;
+    font-style: oblique;
+    font-stretch: extra-expanded;
+    color: rgb(255, 255, 255); /* color de la letra*/
+    background-color: #2e2c2c; /*FONDO*/
+
+    border-color:#2e2c2c;
+    /*    border: none;*/
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+
+
+
+.resaltador:hover{
+    border-bottom-color: red;
+}

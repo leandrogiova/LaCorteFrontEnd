@@ -1,0 +1,49 @@
+/*
+https://www.mclibre.org/consultar/amaya/css/css-propiedades.html#css-fondos
+
+El id es unico y en css se inicializa con el #
+
+
+La clase se puede re utilizar y en css se inicializa con el . 
+*/
+#espacioBotonHome { /* boton "Home" */
+    margin-left: 10%;
+}
+
+#espacioBotonMibar{
+    margin-right: 10%;
+}
+
+#page{
+    margin: center;
+    height: auto;
+    width: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+#botonespecialMibar {
+    font-family: "Satisfy", cursive;
+    font-size: 20px;
+    color: #ffffff; /* color de la letra*/
+    border: none;
+    margin-left: 10%;
+    background-color: #2e2c2ce3;
+}
+
+#botonespecialHome {
+    font-family: "Satisfy", cursive;
+    font-size: 20px;
+    color: #ffffff; /* color de la letra*/
+    margin-left: 70%;
+    margin: center;
+    border: none;
+    background-color: #2e2c2ce3;
+}
+
+.letrablanca{
+    color: white;
+}

@@ -1,0 +1,172 @@
+
+<div class="recuadro_principal container"> 
+    <h1> Ver Mesas Abiertas</h1>
+    <p> <button (click) = "VerOcutalLista()"> {{verOcultar}} </button> </p>
+    <p> <input type = "button" (click) = "verMesasAbiertas()" value = "Actualizar"> </p>
+    <label *ngIf = "verLista">
+        <div class = "small">
+            <li *ngFor = "let mesaAbiertas of mesas, let i=index" class="recuadro_secundario" >     
+                    <ul> Numero de mesa: {{mesaAbiertas.numero_mesa}} </ul>
+                    <ul> Estado: {{mesaAbiertas.estado}}</ul>
+                    <ul>Fecha: {{mesaAbiertas.fecha}}</ul>
+                    <p> Lista de Productos: </p>
+                    <ul *ngFor = "let producto of mesaAbiertas.listaProductos" class = "small">
+                       <li> Numero de producto: {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}} </li>
+                    </ul>
+                    <ul>
+                        Precio Total de la mesa = {{mesaAbiertas.precioTotal}}        
+                    </ul>
+                    <ul>
+                        Ya abonado de la mesa = {{mesaAbiertas.precioTemporal}}        
+                    </ul>
+                    <ul>
+                        Precio Total de la mesa = {{mesaAbiertas.precioTotal - mesaAbiertas.precioTemporal}}
+                    </ul>
+                </li>   
+        </div>
+    </label>
+</div>
+
+
+
+
+
+
+
+
+
+<div class = "recuadro_principal container">
+    <h1>Abrir una nueva mesa </h1>
+    <p> <button (click) = "VerOcutarFormulario()"> Ver/Ocultar </button> </p>
+    <div *ngIf="verForm">
+        <form [formGroup] = "abrirMesaForm">
+            <p>Numero de mesa: <input type="number" formControlName = "numeroMesa" placeholder="Numero de la mesa" > </p>
+            <p class = "error" *ngIf="abrirMesaForm.controls.numeroMesa.errors && abrirMesaForm.controls.numeroMesa.touched"> Ingrese un numero de mesa mayor o igual a cero. Y asegurese que la mesa no esté abierta </p>
+            <div class="small"> Las mesas abiertas son: ( <label *ngFor="let mesa of mesas, let i = index"> {{mesa.numero_mesa}} | </label> ) </div>
+            <p>Fecha de la mesa <input type = "datetime-local" formControlName = "fecha1Mesa"> </p>
+            <p class = "error" *ngIf="abrirMesaForm.controls.fecha1Mesa.errors && abrirMesaForm.controls.fecha1Mesa.touched"> Este campo es obligatorio por favor complete la fecha </p>
+            <p> <label> Productos </label> </p>
+            <select formControlName = "productoId" class = "small container-fluid" >
+                    <option *ngFor = "let producto of productos" value={{producto.id}}> 
+                        {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}}
+                    </option>
+            </select>
+        </form>
+        <button (click)="AgregarProductoALista()" [disabled]="!abrirMesaForm.controls.productoId.touched">Agregar Producto </button>
+        <!--<button (click)="AgregarProductoALista()" [disabled]="!abrirMesaForm.controls.productoId.touched">Agregar Producto </button> --> 
+        <div class="recuadro_secundario small">
+            <h3>Lista De Productos: </h3>
+            <ul *ngFor="let producto of lista">
+                <li> 
+                    {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}} 
+                    <button value="{{producto.id}}" (click) = "eliminarProductoDeLista($event)"> Eliminar Producto </button>
+                </li>
+            </ul>
+        </div>
+        <p> <input type = "button" (click)="abrirNuevaMesa()" value = "Enviar" [disabled]="!abrirMesaForm.valid"> </p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class = "recuadro_principal container">
+    <h1> Agregar productos a mesa</h1>
+    <p>
+        Mesas:
+        <select [formControl] = "numeroMesa" >      
+            <option *ngFor = "let mesa of mesas" value={{mesa.id}}> 
+                Numero de la mesa "{{mesa.numero_mesa}}"
+            </option>
+      </select>
+    </p>
+    Productos:
+        <select [formControl] = "numeroDeProducto" >
+            <option *ngFor = "let producto of productos" value={{producto.numeroProducto}}> 
+                {{producto.numeroProducto}} | {{producto.nombre}} | {{producto.precio}}
+            </option>
+        </select>
+       <p> <input type = "button" value = "AgregarProducto" (click) = "agregarMuchosProductos()" [disabled]="!numeroDeProducto.valid && numeroMesa.valid"> </p> 
+        
+        <div class = "recuadro_secundario small">
+            Lista de productos para agregar a la mesa:  
+            <p *ngFor = "let producto of lista2">
+                {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}}
+                <button class ="small" value = "{{producto.numeroProducto}}" (click) = "eliminarProductoDeLaLista2($event)" > Eliminar Producto </button>
+            </p>
+        </div>
+        <p> <input type = "button" value = "EnviarMuchosProductos" (click) = "enviandoMuchosProductos()"[disabled]="!numeroDeProducto.valid && numeroMesa.valid"> </p>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class = "recuadro_principal container">
+    <h1>Cobrar un producto o una Mesa</h1>
+    <select [formControl] = "numeroMesa" >      
+        <option *ngFor = "let mesa of mesas" value={{mesa.numero_mesa}}> 
+            Numero de la mesa "{{mesa.numero_mesa}}"
+        </option>
+    </select>
+    <button (click)="verUnaMesa()"> Ver/Ocultar Mesa </button>
+
+    <h4>Mesa Numero "{{mesaUnica.numero_mesa}}"</h4>
+    <div class="recuadro_secundario" *ngIf="verMesaCobrar">
+            <h4> Productos sin cobrar: </h4>
+            <label *ngFor = "let producto of mesaUnica.listaProductos" > 
+                <ul class = "small">
+                    Numero de producto: {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}} | cobrado:{{producto.cobrado}}
+                    <button value="{{producto.id}}" (click)="cobrarProducto($event)" [disabled]=""> CobrarProducto </button>
+                </ul>                  
+            </label>
+        <div class = "recuadro_secundario">
+            <h4>Productos cobrados:</h4>
+            <label *ngFor=" let producto of mesaUnica.productosCobrados">
+                <ul class = "small">
+                    Numero de producto: {{producto.numeroProducto}} | {{producto.nombre}} | ${{producto.precio}} | cobrado:{{producto.cobrado}}
+                    <button value="{{producto.id}}" (click)="deshacerCambioCobrarProducto($event)" [disabled]=""> Deshacer cambio </button>
+                </ul>
+            </label>
+        </div>
+        <ul>
+            Precio Total de la mesa = {{mesaUnica.precioTotal}}        
+        </ul>
+        <ul>
+            Ya abonado de la mesa = {{mesaUnica.precioTemporal}}        
+        </ul>
+        <ul>
+            Resta abonar total de la mesa = {{mesaUnica.precioTotal - mesaUnica.precioTemporal}}
+        </ul>
+    </div>
+    <p> <button (click)="cobrarMesa()" [disabled]="verUnaMesaBool == false"> Cobrar y Cerrar una mesa </button> </p>
+</div>
+
+
